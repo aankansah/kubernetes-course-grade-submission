@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongodb
+  namespace: grade-submission
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: mongodb ## should match a the pod template label
+  serviceName: mongodb
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: grade-submission
+        app.kubernetes.io/component: database
+        app.kubernetes.io/instance: mongodb
+    spec:
+      containers:
+        - name: mongodb
+          image: mongo:4.4
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: mongodb-persistent-storage
+              mountPath: /data/db
+  volumeClaimTemplates: ## persistent volume claim template for each pvc pod replica
+    - metadata:
+        name: mongodb-persistent-storage
+        #actual name generated for this pvc later will be:
+        # mongodb-persistent-storage-mongodb-0, mongodb-persistent-storage-mongodb-1 (i.e. the pod name is appended to the pvc name)
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi
