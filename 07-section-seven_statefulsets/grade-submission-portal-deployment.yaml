@@ -28,8 +28,11 @@ spec:
             httpGet:
               path: /readyz
               port: 5001
-              initialDelaySeconds: 15
-              periodSeconds: 5
+            initialDelaySeconds: 15
+            periodSeconds: 5
+          env:
+            - name: GRADE_SERVICE_HOST
+              value: grade-submission-api
           resources:
             requests:
               memory: "128Mi"

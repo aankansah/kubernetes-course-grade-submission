@@ -13,3 +13,20 @@ app could be operational but the services it depends on is not ready, so the rea
 ## Stateful Set and Persistent Volume Claims (PVC)
 
 - actual name generated for this pvc later will be mongodb-persistent-storage-mongodb-0, mongodb-persistent-storage-mongodb-1 (i.e. the pod name is appended to the pvc name)
+- So the link is
+
+  - POD -> PVC -> PERSISTENT VOLUME (actual storage on the node)
+- Connection from the grade-submission-api to the mongodb statefulSet
+
+  - GRADES API -> MONGODB SERVICE -> MONGODB STATEFULSET POD -> BOUND PERSISTENT VOLUME ON HOST
+  - Full App Network Traffic Flow:
+  - ```
+    User/Portal
+      -> grade-submission-api Service
+      -> grade-submission-api Pod
+      -> mongodb Service
+      -> MongoDB StatefulSet Pod
+      -> PVC
+      -> bound PV
+      -> storage backend
+    ```
