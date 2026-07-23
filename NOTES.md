@@ -31,8 +31,6 @@ app could be operational but the services it depends on is not ready, so the rea
       -> storage backend
     ```
 
-
-
 # ConfigMaps and Secrets
 
 Never mix application-specific config with environment-related deployment details.
@@ -213,4 +211,16 @@ kubectl get secrets -n grade-submission
 kubectl describe configmap grade-submission-api-config -n grade-submission
 kubectl describe secret grade-submission-api-secret -n grade-submission
 kubectl get secret grade-submission-api-secret -n grade-submission -o yaml
+```
+
+## Metrics Server
+
+```
+  kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml && kubectl patch deployment metrics-server -n kube-system --type='json' -p='[{"op": "add", "path": "/spec/template/spec/containers/0/args/-", "value":"--kubelet-insecure-tls"}]'
+```
+
+## Ingress
+
+```
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/cloud/deploy.yaml
 ```
