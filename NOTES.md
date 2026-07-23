@@ -30,3 +30,9 @@ app could be operational but the services it depends on is not ready, so the rea
       -> bound PV
       -> storage backend
     ```
+
+
+
+# ConfigMaps and Secrets
+
+Never mix application specific Config with environment related deployment details
